@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
+#include<stdbool.h>
 typedef struct
 {
     short j, m, a;
@@ -184,31 +184,44 @@ void chargerDepuisFichier(Stock *s, int *n)
         exit(EXIT_FAILURE);
     }
 
-    while (fgetc(f) != EOF)
+    // Count the number of lines in the file to determine the number of products
+    char c;
+    while ((c = fgetc(f)) != EOF)
     {
-        (*n)++;
+        if (c == '\n')
+        {
+            (*n)++;
+        }
     }
 
+    // Reset file pointer to beginning of file
+    fseek(f, 0, SEEK_SET);
+
+    // Allocate memory for products
     s->produits = (product *)malloc(*n * sizeof(product));
-    if (s->produits == NULL && *n > 0)
+    if (s->produits == NULL)
     {
         printf("Allocation de mémoire échouée.\n");
         exit(EXIT_FAILURE);
     }
 
-    fseek(f, 0, SEEK_SET);
-
+    // Read data from file into products
     for (int i = 0; i < *n; i++)
     {
-        fscanf(f, "%[^,],%[^,],%f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
-               s->produits[i].nom, s->produits[i].description, &s->produits[i].prix,
-               &s->produits[i].qnt, &s->produits[i].seuil_alrt,
-               &s->produits[i].entre.j, &s->produits[i].entre.m, &s->produits[i].entre.a,
-               &s->produits[i].sortie.j, &s->produits[i].sortie.m, &s->produits[i].sortie.a);
+        if (fscanf(f, "%[^,],%[^,],%f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
+                   s->produits[i].nom, s->produits[i].description, &s->produits[i].prix,
+                   &s->produits[i].qnt, &s->produits[i].seuil_alrt,
+                   &s->produits[i].entre.j, &s->produits[i].entre.m, &s->produits[i].entre.a,
+                   &s->produits[i].sortie.j, &s->produits[i].sortie.m, &s->produits[i].sortie.a) != 11)
+        {
+            printf("Erreur de lecture du fichier.\n");
+            exit(EXIT_FAILURE);
+        }
     }
 
     fclose(f);
 }
+
 
 void genererBilanCSV(Stock *s, int nbProduits)
 {
@@ -235,9 +248,33 @@ void genererBilanCSV(Stock *s, int nbProduits)
 
     fclose(f);
 }
+void recherche_de_disponibilite(Stock *s, int n) {
+    char type_car[20];
+    int i;
+    bool found = false;
 
+    printf("Entrer le type de voiture demandee: ");
+    scanf("%s", type_car);
+
+    for (i = 0; i < n; i++) {
+        if (strcmp(type_car, s->produits[i].nom) == 0) {
+            found = true;
+            if (s->produits[i].qnt >= 1) {
+                printf("Voiture disponible : %d.\n", s->produits[i].qnt);
+            } else {
+                printf("Voiture indisponible.\n");
+            }
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Type de voiture n'existe pas.\n");
+    }
+}
 int main()
 {
+    
     Stock s;
     printf("Entrez le nom de l'utilisateur : ");
     scanf("%49s", s.user);
@@ -254,7 +291,8 @@ int main()
         printf("3. Rechercher un produit\n");
         printf("4. Modifier un produit\n");
         printf("5. Supprimer un produit\n");
-        printf("6. Quitter\n");
+        printf("6. Disponibilité un produit\n");
+        printf("7. Quitter\n");
         printf("Choix: ");
         scanf("%d", &choix);
 
@@ -278,6 +316,10 @@ int main()
             printf("Produit supprimé avec succès.\n");
             break;
         case 6:
+        chargerDepuisFichier(&s,&nbProduits);
+            recherche_de_disponibilite(&s,nbProduits);
+            break;
+        case 7:
             if (s.produits)
             {
                 free(s.produits);
@@ -287,7 +329,7 @@ int main()
         default:
             printf("Choix invalide ! Veuillez réessayer.\n");
         }
-    } while (choix != 6);
+    } while (choix != 7);
 
     if (s.produits)
     {
