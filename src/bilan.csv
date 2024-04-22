@@ -1,3 +1,0 @@
-Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie
-S,e,2,100,2,01/01/0001,02/02/0002
-Valeur totale du stock : 200.00,,,,,,=ABS(C2)

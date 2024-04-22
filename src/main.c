@@ -3,17 +3,18 @@
 #include <time.h>
 #include <string.h>
 #include<stdbool.h>
+#include "../header/USER.h"
 typedef struct
 {
     short j, m, a;
-} date;
+} Date;
 
 typedef struct
 {
     int qnt, seuil_alrt;
     char id[11], nom[50], description[100];
     float prix;
-    date entre, sortie;
+    Date entre, sortie;
 } product;
 
 typedef struct
@@ -274,8 +275,9 @@ void recherche_de_disponibilite(Stock *s, int n) {
 }
 int main()
 {
-    
+    User* user = malloc(sizeof(User));
     Stock s;
+    int num=0;
     printf("Entrez le nom de l'utilisateur : ");
     scanf("%49s", s.user);
 
@@ -283,6 +285,8 @@ int main()
     int nbProduits = 0;
     s.produits = NULL;
 
+    login_singin_menu(user,&num);
+    //second menu
     do
     {
         printf("\nMenu Principal:\n");
@@ -337,5 +341,6 @@ int main()
     }
 
     printf("Fermeture...\n");
+    free(user);
     return 0;
 }

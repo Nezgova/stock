@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "string.h": "c",
+        "USER.H": "cpp",
+        "stdbool.h": "c",
+        "stock.h": "c"
+    }
+}
