@@ -142,6 +142,7 @@ void login_singin_menu(User *users, int *num_users)
         switch (choix)
         {
         case 1:
+            rewind(stdin);
             printf("\nEntrez le nom d'utilisateur : ");
             scanf("%s", nom);
             printf("Entrez le mot de passe : ");
