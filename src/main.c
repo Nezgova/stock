@@ -178,7 +178,7 @@ void rechercherProduit(Stock *s, int n)
 
 void chargerDepuisFichier(Stock *s, int *n)
 {
-    FILE *f = fopen("stock.csv", "r");
+    FILE *f = fopen("src/stock.csv", "r");
     if (f == NULL)
     {
         printf("Échec de l'ouverture du fichier.\n");
@@ -275,17 +275,16 @@ void recherche_de_disponibilite(Stock *s, int n) {
 }
 int main()
 {
-    User* user = malloc(sizeof(User));
     Stock s;
-    int num=0;
-    printf("Entrez le nom de l'utilisateur : ");
-    scanf("%49s", s.user);
+    int num=50;
+    User* user = malloc(num* sizeof(User));
 
     int choix;
     int nbProduits = 0;
     s.produits = NULL;
 
     login_singin_menu(user,&num);
+    strcpy(s.user, user->username);
     //second menu
     do
     {

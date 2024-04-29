@@ -3,6 +3,7 @@
         "string.h": "c",
         "USER.H": "cpp",
         "stdbool.h": "c",
-        "stock.h": "c"
+        "stock.h": "c",
+        "immintrin.h": "c"
     }
 }

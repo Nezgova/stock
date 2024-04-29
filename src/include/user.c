@@ -65,9 +65,25 @@ bool register_user(const char *username, const char *password, User *users, int 
             return false;
         }
     }
+    for (const char *ptr = username; *ptr != '\0'; ptr++)
+    {
+        if (!isalnum(*ptr))
+        {
+            return false;
+        }
+    }
+
+    for (const char *ptr = password; *ptr != '\0'; ptr++)
+    {
+        if (!isprint(*ptr))
+        {
+            return false;
+        }
+    }
 
     strcpy(users[*num_users].username, username);
     strcpy(users[*num_users].password, password);
+
     (*num_users)++;
     return true;
 }
@@ -127,7 +143,10 @@ void login_singin_menu(User *users, int *num_users)
     char nom[50];
     char password[50];
     char new_pass[50];
-    load_users("auth/enc.txt", users, num_users);
+    if (!load_users("auth/enc.txt", users, num_users)) {
+        printf("erreur\n");
+        return;
+    }
     while (true)
     {
         printf("\n1. Se connecter\n");
@@ -152,7 +171,7 @@ void login_singin_menu(User *users, int *num_users)
             if (auth != NULL)
             {
                 printf("Bienvenue, %s !\n", auth->username);
-                choix = 4;
+                return ;
             }
             else
             {
@@ -160,23 +179,28 @@ void login_singin_menu(User *users, int *num_users)
             }
             break;
         case 2:
-            printf("\nEntrez le nouveau nom d'utilisateur : ");
-            scanf("%s", nom);
-            printf("Entrez le nouveau mot de passe : ");
-            scanf("%s", password);
+            do
+            {
+                printf("\nEntrez le nouveau nom d'utilisateur : ");
+                scanf("%s", nom);
+                printf("Entrez le nouveau mot de passe : ");
+                scanf("%s", password);
 
-            if (register_user(nom, password, users, num_users))
-            {
-                printf("Inscription réussie !\n");
-                
-                if(!save_users("auth/enc.txt", users, *num_users)){
-                    printf("Inscription er");
+                if (register_user(nom, password, users, num_users))
+                {
+                    printf("Inscription réussie !\n");
+
+                    if (!save_users("auth/enc.txt", users, *num_users))
+                    {
+                        printf("Erreur lors de l'enregistrement.\n");
+                    }
+                    break;
                 }
-            }
-            else
-            {
-                printf("Inscription échouée. Nombre maximal d'utilisateurs atteint.\n");
-            }
+                else
+                {
+                    printf("Inscription échouée. Nom d'utilisateur déjà pris ou nombre maximal d'utilisateurs atteint.\n");
+                }
+            } while (true);
             break;
         case 3:
             printf("\nEntrez le nom d'utilisateur : ");
@@ -192,6 +216,7 @@ void login_singin_menu(User *users, int *num_users)
                 if (change_password(user_new_pass, password, new_pass))
                 {
                     printf("Mot de passe modifié avec succès !\n");
+                    return ;
                 }
                 else
                 {
