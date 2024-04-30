@@ -138,6 +138,7 @@ bool load_users(const char *filename, User *users, int *num_users)
     fclose(file);
     return true;
 }
+
 void login_singin_menu(User *users, int *num_users)
 {
     char nom[50];
