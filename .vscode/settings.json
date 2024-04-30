@@ -1,11 +1,11 @@
 {
     "files.associations": {
         "string.h": "c",
-        "USER.H": "cpp",
+        "USER.h": "c",
         "stdbool.h": "c",
         "stock.h": "c",
         "immintrin.h": "c",
-        "MEDICAMENT.H": "cpp",
+        "MEDICAMENT.h": "c",
         "atomic": "c",
         "bit": "c",
         "charconv": "c",
