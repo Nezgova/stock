@@ -28,6 +28,7 @@
         "xmemory": "c",
         "xstring": "c",
         "xutility": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "achat.h": "c"
     }
 }
