@@ -24,7 +24,7 @@ void generateUniqueId(char *id)
 
 void ajouterStockMedicament(Stock *s, int *n)
 {
-    FILE *f = fopen("stock.csv", "a");
+    FILE *f = fopen("information/stock.csv", "w");
     if (f == NULL)
     {
         printf("Erreur lors de l'ouverture du fichier.\n");
@@ -41,6 +41,15 @@ void ajouterStockMedicament(Stock *s, int *n)
     generateUniqueId(s->Medicaments[*n].id);
     remplirMedicament(&s->Medicaments[*n]);
 
+    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie\n");
+    for (int i = 0; i < *n; i++)
+    {
+        fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
+                s->Medicaments[i].nom, s->Medicaments[i].description, s->Medicaments[i].prix,
+                s->Medicaments[i].qnt, s->Medicaments[i].seuil_alrt,
+                s->Medicaments[i].entre.j, s->Medicaments[i].entre.m, s->Medicaments[i].entre.a,
+                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a);
+    }
     fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
             s->Medicaments[*n].nom, s->Medicaments[*n].description, s->Medicaments[*n].prix,
             s->Medicaments[*n].qnt, s->Medicaments[*n].seuil_alrt,
@@ -140,7 +149,8 @@ void rechercherMedicament(Stock *s, int n)
     }
 }
 
-void recherche_de_disponibilite(Stock *s, int n) {
+void recherche_de_disponibilite(Stock *s, int n)
+{
     char type_car[20];
     int i;
     bool found = false;
@@ -148,45 +158,39 @@ void recherche_de_disponibilite(Stock *s, int n) {
     printf("Entrer le type de voiture demandee: ");
     scanf("%s", type_car);
 
-    for (i = 0; i < n; i++) {
-        if (strcmp(type_car, s->Medicaments[i].nom) == 0) {
+    for (i = 0; i < n; i++)
+    {
+        if (strcmp(type_car, s->Medicaments[i].nom) == 0)
+        {
             found = true;
-            if (s->Medicaments[i].qnt >= 1) {
+            if (s->Medicaments[i].qnt >= 1)
+            {
                 printf("Voiture disponible : %d.\n", s->Medicaments[i].qnt);
-            } else {
+            }
+            else
+            {
                 printf("Voiture indisponible.\n");
             }
             break;
         }
     }
 
-    if (!found) {
+    if (!found)
+    {
         printf("Type de voiture n'existe pas.\n");
     }
 }
 
-
 void chargerDepuisFichier(Stock *s, int *n)
 {
-    FILE *f = fopen("src/stock.csv", "r");
+    FILE *f = fopen("information/stock.csv", "r");
     if (f == NULL)
     {
         printf("Échec de l'ouverture du fichier.\n");
         exit(EXIT_FAILURE);
     }
 
-    // Count the number of lines in the file to determine the number of products
-    char c;
-    while ((c = fgetc(f)) != EOF)
-    {
-        if (c == '\n')
-        {
-            (*n)++;
-        }
-    }
-
-    // Reset file pointer to beginning of file
-    fseek(f, 0, SEEK_SET);
+    *n = countLinesInFILE("information/stock.csv");
 
     // Allocate memory for products
     s->Medicaments = (medicament *)malloc(*n * sizeof(medicament));
@@ -195,6 +199,9 @@ void chargerDepuisFichier(Stock *s, int *n)
         printf("Allocation de mémoire échouée.\n");
         exit(EXIT_FAILURE);
     }
+
+    // Skip the header line
+    fscanf(f, "%*[^\n]\n");
 
     // Read data from file into products
     for (int i = 0; i < *n; i++)
@@ -215,7 +222,7 @@ void chargerDepuisFichier(Stock *s, int *n)
 
 void genererBilanCSV(Stock *s, int nbMedicaments)
 {
-    FILE *f = fopen("bilan.csv", "w");
+    FILE *f = fopen("information/bilan.csv", "w");
     if (f == NULL)
     {
         printf("Erreur lors de l'ouverture du fichier pour le bilan.\n");
@@ -238,4 +245,3 @@ void genererBilanCSV(Stock *s, int nbMedicaments)
 
     fclose(f);
 }
-

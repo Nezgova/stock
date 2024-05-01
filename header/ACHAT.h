@@ -3,13 +3,7 @@
 #include <stdio.h>
 #include<string.h>
 
-#include "MEDICAMENT.h"
-
-typedef struct
-{
-    char user[50];
-    medicament *Medicaments;
-} Stock;
+#include "STOCK.h"
 
 void achat(medicament *m, int n);
 

@@ -14,7 +14,7 @@ void achat(medicament *m, int n)
     scanf("%d", &qt_med);
     for (i = 0; i < n; i++)
     {
-        if (stcmp(nom_med, m[i].nom) == 0)
+        if (strcmp(nom_med, m[i].nom) == 0)
         {
             if (qt_med > m[i].qnt)
             {
