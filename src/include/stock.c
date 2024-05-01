@@ -5,6 +5,25 @@
 #include <time.h>
 #include <string.h>
 
+
+int countLinesInFILE(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Failed to open file %s\n", filename);
+        return -1; 
+    }
+
+    int count = 0;
+    char c;
+    while ((c = fgetc(file)) != EOF) {
+        if (c == '\n') {
+            count++;
+        }
+    }
+
+    fclose(file);
+    return count;
+}
 void generateUniqueId(char *id)
 {
     int longueur = 10;
@@ -200,10 +219,7 @@ void chargerDepuisFichier(Stock *s, int *n)
         exit(EXIT_FAILURE);
     }
 
-    // Skip the header line
-    fscanf(f, "%*[^\n]\n");
-
-    // Read data from file into products
+    fscanf(f, "%*[^\n]\n"); 
     for (int i = 0; i < *n; i++)
     {
         if (fscanf(f, "%[^,],%[^,],%f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",

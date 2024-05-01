@@ -14,7 +14,7 @@ int main()
     User* user = malloc(num* sizeof(User));
 
     int choix;
-    int nbMedicaments = 0;
+    int nbMedicaments = countLinesInFILE("information/stock.csv");
     s.Medicaments = NULL;
 
     login_singin_menu(user,&num);

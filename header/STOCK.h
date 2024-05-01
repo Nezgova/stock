@@ -11,6 +11,8 @@ typedef struct
     medicament *Medicaments;
 } Stock;
 
+int countLinesInFILE(const char *filename); 
+
 void ajouterStockMedicament(Stock *s, int *n);
 void supprimerDernierMedicament(Stock *s, int *n);
 void modifierMedicament(Stock *s, int n);
