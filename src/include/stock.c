@@ -215,16 +215,15 @@ void chargerDepuisFichier(Stock *s, int *n)
 
     *n = countLinesInFILE("information/stock.csv");
 
-    // Allocate memory for products
-    s->Medicaments = (medicament *)malloc(*n * sizeof(medicament));
     if (s->Medicaments == NULL)
     {
-        printf("Allocation de mémoire échouée.\n");
-        exit(EXIT_FAILURE);
+        s->Medicaments = (medicament *)malloc(*n * sizeof(medicament));
+    }else{
+        s->Medicaments = realloc(s->Medicaments,*n * sizeof(medicament));
     }
+    
 
     fscanf(f, "%*[^\n]\n");
-    printf("\nn:%d\n", *n);
 
     for (int i = 0; i < *n - 1; i++)
     {
