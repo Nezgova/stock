@@ -6,7 +6,6 @@
 #include "../header/USER.h"
 #include "../header/MEDICAMENT.h"
 #include "../header/STOCK.h"
-
 int main()
 {
     Stock s;
@@ -29,7 +28,8 @@ int main()
         printf("4. Modifier un Medicament\n");
         printf("5. Supprimer un Medicament\n");
         printf("6. Disponibilité un Medicament\n");
-        printf("7. Quitter\n");
+        printf("7. Achat\n");
+        printf("8. Quitter\n");
         printf("Choix: ");
         scanf("%d", &choix);
 
@@ -56,7 +56,11 @@ int main()
         chargerDepuisFichier(&s,&nbMedicaments);
             recherche_de_disponibilite(&s,nbMedicaments);
             break;
-        case 7:
+            case 7:
+             chargerDepuisFichier(&s,&nbMedicaments);
+            achat(s.Medicaments,nbMedicaments);
+            break;
+        case 8:
             if (s.Medicaments)
             {
                 free(s.Medicaments);
@@ -66,7 +70,7 @@ int main()
         default:
             printf("Choix invalide ! Veuillez réessayer.\n");
         }
-    } while (choix != 7);
+    } while (choix != 8);
 
     if (s.Medicaments)
     {
@@ -77,3 +81,4 @@ int main()
     free(user);
     return 0;
 }
+ 
