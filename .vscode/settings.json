@@ -1,4 +1,5 @@
 {
+
   "files.associations": {
     "string.h": "c",
     "USER.h": "c",
@@ -94,6 +95,7 @@
       "cwd": "c:\\Users\\moham\\Documents\\GitHub\\stock",
       "binaryPath": "c:\\Users\\moham\\Documents\\GitHub\\stock\\program",
       "binaryArgs": []
+
     }
   ]
 }

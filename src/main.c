@@ -53,7 +53,7 @@ int main()
             printf("medicament supprimé avec succès.\n");
             break;
         case 6:
-        chargerDepuisFichier(&s,&nbMedicaments);
+            chargerDepuisFichier(&s,&nbMedicaments);
             recherche_de_disponibilite(&s,nbMedicaments);
             break;
             case 7:
