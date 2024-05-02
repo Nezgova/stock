@@ -25,5 +25,6 @@ typedef struct
 } medicament;
 
 void remplirMedicament(medicament *p);
+void achat(medicament *m, int n);
 
 #endif
