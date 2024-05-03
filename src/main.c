@@ -6,8 +6,33 @@
 #include "../header/USER.h"
 #include "../header/MEDICAMENT.h"
 #include "../header/STOCK.h"
-int main()
+
+void generateTestDataToFile(const char* filename) {
+    FILE* f = fopen(filename, "w");
+    if (f == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        return;
+    }
+
+    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie,Type Medicament\n");
+
+    for (int i = 0; i < 1000; i++) {
+        fprintf(f, "Medicament%d,Description%d,%.2f,%d,%d,%02d/%02d/%04d,%02d/%02d/%04d,%s\n",
+                i + 1, i + 1, (float)(i + 1) * 10, i + 100, i + 10, (i % 28) + 1, (i % 12) + 1, 2022, (i % 28) + 1, (i % 12) + 1, 2022, TypeMedocToString(i % TYPE_COUNT));
+    }
+
+    fclose(f);
+}
+
+int main(int argc, char* argv[])
 {
+    if (argc == 2)
+    {
+        generateTestDataToFile("information/stock.csv");
+        exit(0);
+    }
+    
+    
     Stock s;
     int num=50;
     User* user = malloc(num* sizeof(User));
