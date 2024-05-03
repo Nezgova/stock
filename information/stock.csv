@@ -1,5 +1,4 @@
-Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie
-,,0.00,9175232,9175232,0/0/0,0/0/0
-,,0.00,0,0,0/0/0,0/0/0
-,,0.00,0,0,0/0/0,0/0/0
-log,bla,12.00,50,5,12/12/2012,15/2/2030
+Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie,Type Medicament
+1,1,1.00,1,1,1/1/1,1/1/1,PERFUSION
+2,3,4.00,1,2,0/3/2,0/0/0,DESINFECTANTS
+3,3,3.00,3,3,3/3/3,3/3/3,INJECTABLES

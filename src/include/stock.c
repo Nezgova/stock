@@ -53,7 +53,7 @@ void ajouterStockMedicament(Stock *s, int *n)
         exit(EXIT_FAILURE);
     }
 
-    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie\n");
+    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie,Type Medicament\n");
 
     s->Medicaments = (medicament *)realloc(s->Medicaments, (*n + 1) * sizeof(medicament));
     if (s->Medicaments == NULL)
@@ -66,18 +66,18 @@ void ajouterStockMedicament(Stock *s, int *n)
     remplirMedicament(&s->Medicaments[*n]);
     for (int i = 0; i < *n; i++)
     {
-        fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
+        fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd,%s\n",
                 s->Medicaments[i].nom, s->Medicaments[i].description, s->Medicaments[i].prix,
                 s->Medicaments[i].qnt, s->Medicaments[i].seuil_alrt,
                 s->Medicaments[i].entre.j, s->Medicaments[i].entre.m, s->Medicaments[i].entre.a,
-                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a);
+                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a,TypeMedocToString(s->Medicaments[i].Type));
     }
 
-    fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
+    fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd,%s\n",
             s->Medicaments[*n].nom, s->Medicaments[*n].description, s->Medicaments[*n].prix,
             s->Medicaments[*n].qnt, s->Medicaments[*n].seuil_alrt,
             s->Medicaments[*n].entre.j, s->Medicaments[*n].entre.m, s->Medicaments[*n].entre.a,
-            s->Medicaments[*n].sortie.j, s->Medicaments[*n].sortie.m, s->Medicaments[*n].sortie.a);
+            s->Medicaments[*n].sortie.j, s->Medicaments[*n].sortie.m, s->Medicaments[*n].sortie.a,TypeMedocToString(s->Medicaments[*n].Type) );
 
     fclose(f);
     (*n)++;
@@ -227,14 +227,17 @@ void chargerDepuisFichier(Stock *s, int *n)
 
     for (int i = 0; i < *n - 1; i++)
     {
-        if (fscanf(f, "%[^,],%[^,],%f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd\n",
+        char str[30];
+        if (fscanf(f, "%[^,],%[^,],%f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd,%29s\n",
                    s->Medicaments[i].nom, s->Medicaments[i].description, &s->Medicaments[i].prix,
                    &s->Medicaments[i].qnt, &s->Medicaments[i].seuil_alrt,
                    &s->Medicaments[i].entre.j, &s->Medicaments[i].entre.m, &s->Medicaments[i].entre.a,
-                   &s->Medicaments[i].sortie.j, &s->Medicaments[i].sortie.m, &s->Medicaments[i].sortie.a) != 11)
+                   &s->Medicaments[i].sortie.j, &s->Medicaments[i].sortie.m, &s->Medicaments[i].sortie.a, str) != 12)
         {
             printf("Erreur de lecture du fichier.\n");
             exit(EXIT_FAILURE);
+        }else{
+            s->Medicaments[i].Type = StringToTypeMedoc(str);
         }
     }
 
@@ -251,18 +254,18 @@ void genererBilanCSV(Stock *s, int nbMedicaments)
     }
 
     float valeurTotale = 0;
-    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie\n");
+    fprintf(f, "Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie,Type medicament\n");
     for (int i = 0; i < nbMedicaments; i++)
     {
-        fprintf(f, "%s,%s,%.2f,%d,%d,%02d/%02d/%04d,%02d/%02d/%04d\n",
+        fprintf(f, "%s,%s,%.2f,%d,%d,%02d/%02d/%04d,%02d/%02d/%04d,%s\n",
                 s->Medicaments[i].nom, s->Medicaments[i].description, s->Medicaments[i].prix,
                 s->Medicaments[i].qnt, s->Medicaments[i].seuil_alrt,
                 s->Medicaments[i].entre.j, s->Medicaments[i].entre.m, s->Medicaments[i].entre.a,
-                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a);
+                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a, TypeMedocToString(s->Medicaments[i].Type) );
         valeurTotale += s->Medicaments[i].qnt * s->Medicaments[i].prix;
     }
 
-    fprintf(f, ",,,,,Valeur totale du stock : ,%.2f\n", valeurTotale);
+    fprintf(f, ",,,,,,Valeur totale du stock : ,%.2f\n", valeurTotale);
 
     fclose(f);
 }

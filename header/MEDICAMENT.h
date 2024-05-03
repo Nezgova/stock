@@ -6,15 +6,28 @@ typedef struct
     short j, m, a;
 } Date;
 
+#define TYPE_MEDOC_LIST(X) \
+    X(ORAUX) \
+    X(INJECTABLES) \
+    X(PERFUSION) \
+    X(VACCINS) \
+    X(ANTISEPTIQUES) \
+    X(DESINFECTANTS)
+
+#define ENUM_DEF(name) name,
+#define STRING_DEF(name) #name,
+
 typedef enum {
-    ORAUX,
-    INJECTABLES,
-    PERFUSION,
-    VACCINS,
-    ANTISEPTIQUES,
-    DESINFECTANTS
+    
+    TYPE_MEDOC_LIST(ENUM_DEF)
+    TYPE_COUNT
+
 } TypeMedoc;
 
+extern const char* TypeMedocStrings[];
+
+#define TypeMedocToString(type) \
+    ((type >= 0 && type < TYPE_COUNT) ? TypeMedocStrings[type] : "UNKNOWN")
 typedef struct
 {
     int qnt, seuil_alrt;
@@ -24,6 +37,7 @@ typedef struct
     Date entre, sortie;
 } medicament;
 
+TypeMedoc StringToTypeMedoc(char* str);
 void remplirMedicament(medicament *p);
 void achat(medicament *m, int n);
 
