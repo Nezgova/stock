@@ -88,7 +88,7 @@ void achat(medicament *m, int n)
 {
     FILE *f = fopen("information/ticket.csv", "w");
 
-    int i, choix = 1;
+    int i, choix = 0;
     char nom_med[20];
     int qt_med = 0;
     float total = 0;
@@ -99,14 +99,20 @@ void achat(medicament *m, int n)
         exit(EXIT_FAILURE);
     }
     fprintf(f, "Nom du Medicament,Quantite,Prix,type\n");
-    while (choix != 0)
+    while (choix != 2)
     {
+         rewind(stdin);
         printf("Entrer :\n1.Pour Acheter.\n2.Pour Quitter.\n");
         scanf("%d", &choix);
+        if(choix==2){
+            break;
+        }
         printf("Entrer le nom du medicament :");
         scanf("%s", nom_med);
+        rewind(stdin);
         printf("Entrer la quantite de votre medicament:");
         scanf("%d", &qt_med);
+        rewind(stdin);
         for (i = 0; i < n; i++)
         {
             if (strcmp(nom_med, m[i].nom) == 0)
@@ -123,7 +129,7 @@ void achat(medicament *m, int n)
                 {
                     printf("Veuillez recharger le stock , il reste %d medicament nomee %s\n", m[i].qnt, m[i].nom);
                 }
-                printf("ACHAT REUSSI");
+                printf("ACHAT REUSSI\n");
                 break;
             }
         }
