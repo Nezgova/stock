@@ -128,16 +128,18 @@ void achat(medicament *m, int n)
                 if (m[i].qnt <= m[i].seuil_alrt)
                 {
                     printf("Veuillez recharger le stock , il reste %d medicament nomee %s\n", m[i].qnt, m[i].nom);
+
                 }
                 printf("ACHAT REUSSI\n");
                 break;
             }
         }
+        ModificationStockMedicament(n,i+1,m[i]);
 
         fprintf(f, "%s,%d,%.2f,%s\n", nom_med, qt_med, qt_med * m[i].prix, TypeMedocToString(m[i].Type));
         total += qt_med * m[i].prix;
     }
-    fprintf(f, "TOTAL,%.2f", total);
+    fprintf(f, "TOTAL,%.2fDH", total);
     fclose(f);
 }
 

@@ -70,17 +70,84 @@ void ajouterStockMedicament(Stock *s, int *n)
                 s->Medicaments[i].nom, s->Medicaments[i].description, s->Medicaments[i].prix,
                 s->Medicaments[i].qnt, s->Medicaments[i].seuil_alrt,
                 s->Medicaments[i].entre.j, s->Medicaments[i].entre.m, s->Medicaments[i].entre.a,
-                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a,TypeMedocToString(s->Medicaments[i].Type));
+                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a, TypeMedocToString(s->Medicaments[i].Type));
     }
 
     fprintf(f, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd,%s\n",
             s->Medicaments[*n].nom, s->Medicaments[*n].description, s->Medicaments[*n].prix,
             s->Medicaments[*n].qnt, s->Medicaments[*n].seuil_alrt,
             s->Medicaments[*n].entre.j, s->Medicaments[*n].entre.m, s->Medicaments[*n].entre.a,
-            s->Medicaments[*n].sortie.j, s->Medicaments[*n].sortie.m, s->Medicaments[*n].sortie.a,TypeMedocToString(s->Medicaments[*n].Type) );
+            s->Medicaments[*n].sortie.j, s->Medicaments[*n].sortie.m, s->Medicaments[*n].sortie.a, TypeMedocToString(s->Medicaments[*n].Type));
 
     fclose(f);
     (*n)++;
+}
+
+void ModificationStockMedicament( int n, int position,medicament m)
+{
+    // Vérifier si la position est valide
+    if (position < 0 || position >= n)
+    {
+        printf("Position invalide.\n");
+        return;
+    }
+
+    // Ouvrir le fichier CSV en mode lecture
+    FILE *f = fopen("information/stock.csv", "r");
+    if (f == NULL)
+    {
+        printf("Erreur lors de l'ouverture du fichier.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Ouvrir un nouveau fichier temporaire en mode écriture
+    FILE *temp = fopen("information/temp.csv", "w");
+    if (temp == NULL)
+    {
+        printf("Erreur lors de la création du fichier temporaire.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copier les lignes du fichier original vers le fichier temporaire, en sautant la ligne à la position spécifiée
+    char ligne[1024];
+    int compteur = 0;
+    while (fgets(ligne, sizeof(ligne), f) != NULL)
+    {
+        // Si la ligne est différente de celle à la position spécifiée, la copier dans le fichier temporaire
+        if (compteur != position)
+        {
+            fputs(ligne, temp);
+        }
+        else{
+            
+           fprintf(temp, "%s,%s,%.2f,%d,%d,%hd/%hd/%hd,%hd/%hd/%hd,%s\n",
+                m.nom, m.description, m.prix,
+                m.qnt, m.seuil_alrt,
+                m.entre.j, m.entre.m, m.entre.a,
+                m.sortie.j, m.sortie.m, m.sortie.a, TypeMedocToString(m.Type));
+        }
+        compteur++;
+    }
+
+    // Fermer les fichiers
+    fclose(f);
+    fclose(temp);
+
+    // Supprimer le fichier original
+    if (remove("information/stock.csv") != 0)
+    {
+        printf("Erreur lors de la suppression du fichier original.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Renommer le fichier temporaire pour remplacer le fichier original
+    if (rename("information/temp.csv", "information/stock.csv") != 0)
+    {
+        printf("Erreur lors du renommage du fichier temporaire.\n");
+        exit(EXIT_FAILURE);
+    }
+
+   
 }
 
 void supprimerDernierMedicament(Stock *s, int *n)
@@ -218,10 +285,11 @@ void chargerDepuisFichier(Stock *s, int *n)
     if (s->Medicaments == NULL)
     {
         s->Medicaments = (medicament *)malloc(*n * sizeof(medicament));
-    }else{
-        s->Medicaments = realloc(s->Medicaments,*n * sizeof(medicament));
     }
-    
+    else
+    {
+        s->Medicaments = realloc(s->Medicaments, *n * sizeof(medicament));
+    }
 
     fscanf(f, "%*[^\n]\n");
 
@@ -236,7 +304,9 @@ void chargerDepuisFichier(Stock *s, int *n)
         {
             printf("Erreur de lecture du fichier.\n");
             exit(EXIT_FAILURE);
-        }else{
+        }
+        else
+        {
             s->Medicaments[i].Type = StringToTypeMedoc(str);
         }
     }
@@ -261,7 +331,7 @@ void genererBilanCSV(Stock *s, int nbMedicaments)
                 s->Medicaments[i].nom, s->Medicaments[i].description, s->Medicaments[i].prix,
                 s->Medicaments[i].qnt, s->Medicaments[i].seuil_alrt,
                 s->Medicaments[i].entre.j, s->Medicaments[i].entre.m, s->Medicaments[i].entre.a,
-                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a, TypeMedocToString(s->Medicaments[i].Type) );
+                s->Medicaments[i].sortie.j, s->Medicaments[i].sortie.m, s->Medicaments[i].sortie.a, TypeMedocToString(s->Medicaments[i].Type));
         valeurTotale += s->Medicaments[i].qnt * s->Medicaments[i].prix;
     }
 

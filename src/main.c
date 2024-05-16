@@ -84,6 +84,7 @@ int main(int argc, char* argv[])
             case 7:
              chargerDepuisFichier(&s,&nbMedicaments);
             achat(s.Medicaments,nbMedicaments);
+
             break;
         case 8:
             if (s.Medicaments)
