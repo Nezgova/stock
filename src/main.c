@@ -106,7 +106,7 @@ int pos=0;
             ;
             chargerDepuisFichierHistory(&history2, &nbMedicaments);
             int ch;
-            printf("Entrer :\n1.Le type des medicament le plus achetee.\n2.Le Revenue Total.\n3.Quittez.\n");
+            printf("Entrer :\n1.Le type des medicament le plus achetee.\n2.Le Revenue Total.\n3.Le Type avec le meilleur revenue.\n4.Quittez.\n");
             scanf("%d", &ch);
             statistics(history2, ch);
              free(history2);

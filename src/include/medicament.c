@@ -182,71 +182,120 @@ void affichage_history(medicament *m, int n) {
     }
 }
 
-void statistics(medicament* m , int choix){
-    while(choix!=3){
+void statistics(medicament* m, int choix) {
+    while (choix != 4) {
+        int i, or = 0, inj = 0, perf = 0, vac = 0, ant = 0, des = 0, max = 0;
+        int n = countLinesInFILE("information/history.csv");
 
-   
-    int i,or=0,inj=0,perf=0,vac=0,ant=0,des=0,max=0;
-     int n = countLinesInFILE("information/history.csv");
-     switch (choix)
-     {
-     case 1: for(i=0;i<n;i++){
-        if (strcmp(m[i].description,"ORAUX")==0) or++;
-        else if (strcmp(m[i].description,"INJECTABLES")==0) inj++;
-        else if (strcmp(m[i].description,"PERFUSION")==0) perf++;
-        else if (strcmp(m[i].description,"VACCINS")==0) vac++;
-        else if (strcmp(m[i].description,"ANTISEPTIQUES")==0) ant++;
-        else if (strcmp(m[i].description,"DESINFECTANTS")==0) des++;
-    }
-    int t[6];
-    t[0]=or;
-    t[1]=inj;
-    t[2]=perf;
-    t[3]=vac;
-    t[4]=ant;
-    t[5]=des;
-    
-    for(i=0;i<6;i++){
-       if(max<t[i]){
-        max=t[i];
-       }
-    }
-    for(i=0;i<6;i++){
-     switch (i)
-     {
-     case 1:
-       if(or==max)printf("Le type du medicament le plus achetee est : ORAUX\n");
-        break;
-         case 2:
-       if(inj==max)printf("Le type du medicament le plus achetee est : INJECTABLES\n");
-        break;
-         case 3:
-       if(perf==max)printf("Le type du medicament le plus achetee est : ORAUX\n");
-        break;
-         case 4:
-       if(vac==max)printf("Le type du medicament le plus achetee est : VACCINS\n");
-        break;
-         case 5:
-       if(ant==max)printf("Le type du medicament le plus achetee est : ANTISEPTIQUES\n");
-        break;
-         case 6:
-       if(des==max)printf("Le type du medicament le plus achetee est : DESINFECTANTS\n");
-        break;
-     default:
-        break;
-     }
-    }
-        break;
-        case 2:
-        for(i=0;i<n;i++){
-            max+=m[i].prix;
+        switch (choix) {
+            case 1:
+                for (i = 0; i < n; i++) {
+                    if (strcmp(m[i].description, "ORAUX") == 0) or++;
+                    else if (strcmp(m[i].description, "INJECTABLES") == 0) inj++;
+                    else if (strcmp(m[i].description, "PERFUSION") == 0) perf++;
+                    else if (strcmp(m[i].description, "VACCINS") == 0) vac++;
+                    else if (strcmp(m[i].description, "ANTISEPTIQUES") == 0) ant++;
+                    else if (strcmp(m[i].description, "DESINFECTANTS") == 0) des++;
+                }
+                int t[6];
+                t[0] = or;
+                t[1] = inj;
+                t[2] = perf;
+                t[3] = vac;
+                t[4] = ant;
+                t[5] = des;
+
+                for (i = 0; i < 6; i++) {
+                    if (max < t[i]) {
+                        max = t[i];
+                    }
+                }
+
+                for (i = 0; i < 6; i++) {
+                    switch (i) {
+                        case 0:
+                            if (or == max) printf("Le type du medicament le plus achete est : ORAUX\n");
+                            break;
+                        case 1:
+                            if (inj == max) printf("Le type du medicament le plus achete est : INJECTABLES\n");
+                            break;
+                        case 2:
+                            if (perf == max) printf("Le type du medicament le plus achete est : PERFUSION\n");
+                            break;
+                        case 3:
+                            if (vac == max) printf("Le type du medicament le plus achete est : VACCINS\n");
+                            break;
+                        case 4:
+                            if (ant == max) printf("Le type du medicament le plus achete est : ANTISEPTIQUES\n");
+                            break;
+                        case 5:
+                            if (des == max) printf("Le type du medicament le plus achete est : DESINFECTANTS\n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+            case 2:
+                for (i = 0; i < n; i++) {
+                    max += m[i].prix;
+                }
+                printf("Le Revenu total de l'entreprise d'apres les medicaments est : %dDH\n", max);
+                break;
+            case 3:
+                or = 0; inj = 0; perf = 0; vac = 0; ant = 0; des = 0; max = 0;
+                for (i = 0; i < n; i++) {
+                    if (strcmp(m[i].description, "ORAUX") == 0) or += m[i].prix;
+                    else if (strcmp(m[i].description, "INJECTABLES") == 0) inj += m[i].prix;
+                    else if (strcmp(m[i].description, "PERFUSION") == 0) perf += m[i].prix;
+                    else if (strcmp(m[i].description, "VACCINS") == 0) vac += m[i].prix;
+                    else if (strcmp(m[i].description, "ANTISEPTIQUES") == 0) ant += m[i].prix;
+                    else if (strcmp(m[i].description, "DESINFECTANTS") == 0) des += m[i].prix;
+                }
+                t[0] = or;
+                t[1] = inj;
+                t[2] = perf;
+                t[3] = vac;
+                t[4] = ant;
+                t[5] = des;
+
+                for (i = 0; i < 6; i++) {
+                    if (max < t[i]) {
+                        max = t[i];
+                    }
+                }
+
+                for (i = 0; i < 6; i++) {
+                    switch (i) {
+                        case 0:
+                            if (or == max) printf("Le type du medicament avec le meilleur revenu est : ORAUX\n");
+                            break;
+                        case 1:
+                            if (inj == max) printf("Le type du medicament avec le meilleur revenu est : INJECTABLES\n");
+                            break;
+                        case 2:
+                            if (perf == max) printf("Le type du medicament avec le meilleur revenu est : PERFUSION\n");
+                            break;
+                        case 3:
+                            if (vac == max) printf("Le type du medicament avec le meilleur revenu est : VACCINS\n");
+                            break;
+                        case 4:
+                            if (ant == max) printf("Le type du medicament avec le meilleur revenu est : ANTISEPTIQUES\n");
+                            break;
+                        case 5:
+                            if (des == max) printf("Le type du medicament avec le meilleur revenu est : DESINFECTANTS\n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+            default:
+                printf("Choix invalide. Veuillez reessayer.\n");
+                break;
         }
-        printf("Le Revenu totale de l'entreprise d'apres les medicaments est : %dDH\n",max);
-        break;
-     
-     default:
-        break;
-     }
+        printf("Entrez votre choix (1, 2, 3, ou 4 pour quitter): ");
+        scanf("%d", &choix);
     }
 }
 
