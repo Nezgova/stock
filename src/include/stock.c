@@ -171,7 +171,7 @@ void supprimerStockMedicament(Stock *s, int *n, int position) {
     char ligne[1024];
     int compteur = 0;
     while (fgets(ligne, sizeof(ligne), f) != NULL) {
-        if (compteur != position) {
+        if (compteur != position || s->Medicaments[compteur].qnt>0) {
             fputs(ligne, temp);
         }
         compteur++;

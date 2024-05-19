@@ -118,6 +118,7 @@ void achat(medicament *m, int n) {
             if (strcmp(nom_med, m[i].nom) == 0) {
                 if (qt_med > m[i].qnt) {
                     printf("quantite insuffisante au stock\n");
+                    break;
                 } else {
                     m[i].qnt -= qt_med;
                 }
