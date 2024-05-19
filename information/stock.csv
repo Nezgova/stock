@@ -1,10 +1,9 @@
 Nom,Description,Prix,Quantite,Seuil d'alerte,Date d'entree,Date de sortie,Type Medicament
-Medicament1,Description1,10.00,98,10,1/1/2022,1/1/2022,ORAUX
+Medicament1,Description1,10.00,100,10,01/01/2022,01/01/2022,ORAUX
 Medicament2,Description2,20.00,101,11,02/02/2022,02/02/2022,INJECTABLES
 Medicament3,Description3,30.00,102,12,03/03/2022,03/03/2022,PERFUSION
 Medicament4,Description4,40.00,103,13,04/04/2022,04/04/2022,VACCINS
-Medicament5,Description5,50.00,104,14,05/05/2022,05/05/2022,ANTISEPTIQUES
-Medicament6,Description6,60.00,85,15,6/6/2022,6/6/2022,DESINFECTANTS
+Medicament6,Description6,60.00,105,15,06/06/2022,06/06/2022,DESINFECTANTS
 Medicament7,Description7,70.00,106,16,07/07/2022,07/07/2022,ORAUX
 Medicament8,Description8,80.00,107,17,08/08/2022,08/08/2022,INJECTABLES
 Medicament9,Description9,90.00,108,18,09/09/2022,09/09/2022,PERFUSION

@@ -150,22 +150,58 @@ void ModificationStockMedicament( int n, int position,medicament m)
    
 }
 
-void supprimerDernierMedicament(Stock *s, int *n)
-{
-    if (*n <= 0)
-    {
-        printf("Aucun Medicament à supprimer.\n");
+void supprimerStockMedicament(Stock *s, int *n, int position) {
+    if (position < 0 || position >= *n) {
+        printf("Position invalide.\n");
         return;
     }
 
-    (*n)--;
-    s->Medicaments = realloc(s->Medicaments, *n * sizeof(medicament));
-    if (s->Medicaments == NULL && *n > 0)
-    {
+    FILE *f = fopen("information/stock.csv", "r");
+    if (f == NULL) {
+        printf("Erreur lors de l'ouverture du fichier.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    FILE *temp = fopen("information/temp.csv", "w");
+    if (temp == NULL) {
+        printf("Erreur lors de la création du fichier temporaire.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    char ligne[1024];
+    int compteur = 0;
+    while (fgets(ligne, sizeof(ligne), f) != NULL) {
+        if (compteur != position) {
+            fputs(ligne, temp);
+        }
+        compteur++;
+    }
+
+    fclose(f);
+    fclose(temp);
+
+    if (remove("information/stock.csv") != 0) {
+        printf("Erreur lors de la suppression du fichier original.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (rename("information/temp.csv", "information/stock.csv") != 0) {
+        printf("Erreur lors du renommage du fichier temporaire.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = position; i < *n - 1; i++) {
+        s->Medicaments[i] = s->Medicaments[i + 1];
+    }
+    s->Medicaments = realloc(s->Medicaments, (*n - 1) * sizeof(medicament));
+    if (s->Medicaments == NULL) {
         printf("Allocation de mémoire échouée.\n");
         exit(EXIT_FAILURE);
     }
+
+    (*n)--;
 }
+
 
 void modifierMedicament(Stock *s, int n)
 {

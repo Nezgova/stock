@@ -14,7 +14,7 @@ typedef struct
 int countLinesInFILE(const char *filename); 
 
 void ajouterStockMedicament(Stock *s, int *n);
-void supprimerDernierMedicament(Stock *s, int *n);
+void supprimerStockMedicament(Stock *s, int *n, int position);
 void modifierMedicament(Stock *s, int n);
 void afficherMedicaments(Stock *s, int n);
 void rechercherMedicament(Stock *s, int n);

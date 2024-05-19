@@ -147,7 +147,7 @@ void chargerDepuisFichierHistory(medicament** meds, int* n) {
     }
 
     int lineCount = countLinesInFILE("information/history.csv");
-    *n = lineCount;  // Subtract 1 for the header
+    *n = lineCount;
 
     if (*n <= 0) {
         fclose(f);
@@ -162,8 +162,6 @@ void chargerDepuisFichierHistory(medicament** meds, int* n) {
         exit(EXIT_FAILURE);
     }
 
-    // Skip the header line
-  //  fscanf(f, "%*[^\n]\n");
 
     for (int i = 0; i < *n; i++) {
         if (fscanf(f, "%[^,],%d,%f,%[^\n]\n", (*meds)[i].nom, &(*meds)[i].qnt, &(*meds)[i].prix, (*meds)[i].description) != 4) {
@@ -184,6 +182,9 @@ void affichage_history(medicament *m, int n) {
 }
 
 void statistics(medicament* m , int choix){
+    while(choix!=3){
+
+   
     int i,or=0,inj=0,perf=0,vac=0,ant=0,des=0,max=0;
      int n = countLinesInFILE("information/history.csv");
      switch (choix)
@@ -239,13 +240,13 @@ void statistics(medicament* m , int choix){
         for(i=0;i<n;i++){
             max+=m[i].prix;
         }
-        printf("Le Revenu totale de l'entreprise d'apres les medicaments est : %d\nDH",max);
+        printf("Le Revenu totale de l'entreprise d'apres les medicaments est : %dDH\n",max);
         break;
      
      default:
         break;
      }
-   
+    }
 }
 
 
