@@ -237,9 +237,9 @@ void statistics(medicament* m , int choix){
         break;
         case 2:
         for(i=0;i<n;i++){
-            max+=m->prix;
+            max+=m[i].prix;
         }
-        printf("Le Revenu totale de l'entreprise d'apres les medicaments est : %d\n",max);
+        printf("Le Revenu totale de l'entreprise d'apres les medicaments est : %d\nDH",max);
         break;
      
      default:

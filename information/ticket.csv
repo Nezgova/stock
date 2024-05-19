@@ -1,2 +1,4 @@
 Nom du Medicament,Quantite,Prix,type
-TOTAL,0.00DH
+Medicament1,2,20.00,ORAUX
+Medicament6,20,1200.00,DESINFECTANTS
+TOTAL,1220.00DH
