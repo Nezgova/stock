@@ -22,5 +22,4 @@ void recherche_de_disponibilite(Stock *s, int n);
 void ModificationStockMedicament(int n, int position,medicament m);
 void genererBilanCSV(Stock *s, int nbMedicaments);
 void chargerDepuisFichier(Stock *s, int *n);
-
 #endif

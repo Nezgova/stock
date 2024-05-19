@@ -54,7 +54,8 @@ int main(int argc, char* argv[])
         printf("5. Supprimer un Medicament\n");
         printf("6. Disponibilité un Medicament\n");
         printf("7. Achat\n");
-        printf("8. Quitter\n");
+         printf("8.Historique d'achat\n");
+        printf("9. Quitter\n");
         printf("Choix: ");
         scanf("%d", &choix);
 
@@ -86,7 +87,20 @@ int main(int argc, char* argv[])
             achat(s.Medicaments,nbMedicaments);
 
             break;
-        case 8:
+            case 8:
+            ;
+                  medicament *history = (medicament*)malloc(sizeof(medicament));
+                  ;
+                  int n=countLinesInFILE("information/history.csv");
+    chargerDepuisFichierHistory(&history, &nbMedicaments);
+     affichage_history(history, n);
+     int ch=0;
+     printf("Entrer :\n1.Le type des medicament le plus achetee.\n2.Le Revenue Total.");
+     scanf("%d",&ch);
+     statistics( history ,ch);
+
+        free(history);
+        case 9:
             if (s.Medicaments)
             {
                 free(s.Medicaments);
@@ -96,7 +110,7 @@ int main(int argc, char* argv[])
         default:
             printf("Choix invalide ! Veuillez réessayer.\n");
         }
-    } while (choix != 8);
+    } while (choix != 9);
 
     if (s.Medicaments)
     {

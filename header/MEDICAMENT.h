@@ -40,5 +40,7 @@ typedef struct
 TypeMedoc StringToTypeMedoc(char* str);
 void remplirMedicament(medicament *p);
 void achat(medicament *m, int n);
-
+void chargerDepuisFichierHistory(medicament** meds, int* n);
+void affichage_history(medicament *m, int n);
+void statistics(medicament* m , int choix);
 #endif
