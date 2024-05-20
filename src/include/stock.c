@@ -11,6 +11,15 @@
 #define NOM_LENGTH 50
 #define DESC_LENGTH 100
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+
+
 int countLinesInFILE(const char *filename) {
     FILE *f = fopen(filename, "r");
     if (f == NULL) {
@@ -246,24 +255,44 @@ void afficherGraphiqueQuantites(Stock *s, int n) {
     }
 }
 
+
 void afficherGraphiqueQuantitesAvance(Stock *s, int n) {
     if (n <= 0) {
         printf("Aucun Medicament à afficher.\n");
         return;
     }
 
-    printf("\nGraphique des quantités de médicaments en stock :\n");
-    int maxQuantite = 0;
+    printf("\nGraphique des quantités de médicaments en stock :\n\n");
 
+    // Trouver la quantité maximale pour échelle
+    int maxQuantite = 0;
     for (int i = 0; i < n; i++) {
         if (s->Medicaments[i].qnt > maxQuantite) {
             maxQuantite = s->Medicaments[i].qnt;
         }
     }
 
+    int maxBarWidth = 50; // Largeur maximale de la barre
+
+    // Afficher les barres de l'histogramme avancé avec couleurs
     for (int i = 0; i < n; i++) {
-        int barLength = (s->Medicaments[i].qnt * 50) / maxQuantite;
-        printf("%-20s | %s %d\n", s->Medicaments[i].nom, "##################################################" + (50 - barLength), s->Medicaments[i].qnt);
+        int barLength = (s->Medicaments[i].qnt * maxBarWidth) / maxQuantite;
+        
+        // Déterminer la couleur en fonction de la quantité
+        char* color;
+        if (s->Medicaments[i].qnt < maxQuantite * 0.2) {
+            color = RED;
+        } else if (s->Medicaments[i].qnt < maxQuantite * 0.4) {
+            color = YELLOW;
+        } else if (s->Medicaments[i].qnt < maxQuantite * 0.6) {
+            color = GREEN;
+        } else if (s->Medicaments[i].qnt < maxQuantite * 0.8) {
+            color = CYAN;
+        } else {
+            color = MAGENTA;
+        }
+
+        printf("%-20s | %s%-*s%s %d\n", s->Medicaments[i].nom, color, barLength, "##################################################"  + (50 - barLength), RESET, s->Medicaments[i].qnt);
     }
 }
 
