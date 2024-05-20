@@ -29,7 +29,8 @@
     "xstring": "c",
     "xutility": "c",
     "stdio.h": "c",
-    "achat.h": "c"
+    "achat.h": "c",
+    "assert.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
